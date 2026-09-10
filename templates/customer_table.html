@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}Universal Bank Customer Records{% endblock %}
+
+{% block content %}
+<div class="table-page-wrapper">
+    <div class="glass-card table-card">
+        <!-- Table Toolbar -->
+        <div class="table-toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="table-search-input" placeholder="Search by Customer ID, Age, or Income..." class="form-control">
+            </div>
+
+            <div class="toolbar-actions">
+                <a href="{{ url_for('api_export_csv') }}" class="btn btn-outline-gold btn-sm" download>
+                    <i class="fa-solid fa-file-csv"></i> Export CSV
+                </a>
+                <button class="btn btn-outline-light btn-sm" onclick="printTablePDF()">
+                    <i class="fa-solid fa-file-pdf"></i> Export PDF / Print
+                </button>
+            </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-responsive" id="print-area">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('ID')">ID <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Age')">Age <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Experience')">Experience <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Income')">Income ($000) <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Family')">Family <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('CCAvg')">CCAvg ($000) <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Education')">Education <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Mortgage')">Mortgage ($000) <i class="fa-solid fa-sort"></i></th>
+                        <th onclick="sortTable('Personal Loan')">Personal Loan <i class="fa-solid fa-sort"></i></th>
+                        <th>CD Account</th>
+                        <th>Online</th>
+                        <th>Credit Card</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-table-body">
+                    <!-- Loaded dynamically via script.js -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="table-pagination">
+            <div class="pagination-info">
+                Showing <span id="table-start-num">1</span> to <span id="table-end-num">15</span> of <span id="table-total-num">5,000</span> customers
+            </div>
+            <div class="pagination-controls">
+                <button id="prev-page-btn" class="btn btn-outline-light btn-sm" onclick="changePage(-1)">
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                </button>
+                <span class="page-num-badge">Page <strong id="current-page-num">1</strong> / <span id="total-pages-num">334</span></span>
+                <button id="next-page-btn" class="btn btn-outline-light btn-sm" onclick="changePage(1)">
+                    Next <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

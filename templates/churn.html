@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block title %}Churn Analysis - Bank Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Hero Section -->
+    <div class="glass-card hero-section mb-4" style="border-left: 4px solid var(--gold);">
+        <h2>Customer Churn Analysis</h2>
+        <p class="text-muted">Predicting customer attrition using Random Forest on 5,000 bank records</p>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid mb-4">
+        <div class="kpi-card glass-card">
+            <div class="kpi-icon text-primary"><i class="fa-solid fa-users"></i></div>
+            <div class="kpi-details">
+                <h3>Total Customers</h3>
+                <div class="kpi-value" id="churn-total">-</div>
+            </div>
+        </div>
+        <div class="kpi-card glass-card">
+            <div class="kpi-icon text-danger"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+            <div class="kpi-details">
+                <h3>Churn Rate</h3>
+                <div class="kpi-value" id="churn-rate">-</div>
+            </div>
+        </div>
+        <div class="kpi-card glass-card">
+            <div class="kpi-icon text-success"><i class="fa-solid fa-credit-card"></i></div>
+            <div class="kpi-details">
+                <h3>Avg Credit Score</h3>
+                <div class="kpi-value" id="churn-avg-credit">-</div>
+            </div>
+        </div>
+        <div class="kpi-card glass-card">
+            <div class="kpi-icon text-gold"><i class="fa-solid fa-wallet"></i></div>
+            <div class="kpi-details">
+                <h3>Avg Balance</h3>
+                <div class="kpi-value" id="churn-avg-balance">-</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Churn by Geography</h3>
+                <div class="chart-container" style="height:300px;">
+                    <canvas id="churnGeoChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Churn by Gender</h3>
+                <div class="chart-container" style="height:300px;">
+                    <canvas id="churnGenderChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Churn by Age Group</h3>
+                <div class="chart-container" style="height:300px;">
+                    <canvas id="churnAgeChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Churn by Number of Products</h3>
+                <div class="chart-container" style="height:300px;">
+                    <canvas id="churnProductsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 3 -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Churn Rate by Tenure</h3>
+                <div class="chart-container" style="height:300px;">
+                    <canvas id="churnTenureChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Active vs Inactive Member Churn</h3>
+                <div class="chart-container" style="height:300px;">
+                    <canvas id="churnActiveChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matplotlib Charts Row -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Churn Distribution (Matplotlib)</h3>
+                <div class="matplotlib-img-container">
+                    <img src="{{ url_for('static', filename='charts/churn_distribution.png') }}" class="matplotlib-img" alt="Churn Distribution">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card h-100">
+                <h3 class="card-title">Feature Importance (Matplotlib)</h3>
+                <div class="matplotlib-img-container">
+                    <img src="{{ url_for('static', filename='charts/churn_feature_importance.png') }}" class="matplotlib-img" alt="Feature Importance">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

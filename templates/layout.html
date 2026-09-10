@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Bank | Customer Data & ML Analytics</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js & Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dark-theme">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-overlay hidden">
+        <div class="loader-content">
+            <div class="bank-spinner"></div>
+            <div class="loader-text">Loading Banking Analytics...</div>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-vault brand-icon"></i>
+                    <div class="brand-text">
+                        <span class="brand-name">UNIVERSAL</span>
+                        <span class="brand-sub">BANK ML PORTAL</span>
+                    </div>
+                </div>
+                <button id="sidebar-toggle" class="icon-btn sidebar-collapse-btn" title="Toggle Sidebar">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">{{ session.get('username', 'Admin') }}</div>
+                    <div class="user-role">Bank Analyst</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">MAIN NAVIGATION</div>
+                <a href="{{ url_for('dashboard_page') }}" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('analysis_page') }}" class="nav-item {% if active_page == 'analysis' %}active{% endif %}">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Data Analysis (EDA)</span>
+                </a>
+                <a href="{{ url_for('customers_page') }}" class="nav-item {% if active_page == 'customers' %}active{% endif %}">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Customer Records</span>
+                </a>
+                <a href="{{ url_for('churn_page') }}" class="nav-item {% if active_page == 'churn' %}active{% endif %}">
+                    <i class="fa-solid fa-person-walking-arrow-right"></i>
+                    <span>Churn Analysis</span>
+                </a>
+
+                <div class="nav-section-title">MACHINE LEARNING</div>
+                <a href="{{ url_for('models_page') }}" class="nav-item {% if active_page == 'models' %}active{% endif %}">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>ML Models Comparison</span>
+                </a>
+                <a href="{{ url_for('prediction_page') }}" class="nav-item {% if active_page == 'prediction' %}active{% endif %}">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Live Loan Prediction</span>
+                </a>
+
+                <div class="nav-section-title">INTELLIGENCE & PROJECT</div>
+                <a href="{{ url_for('insights_page') }}" class="nav-item {% if active_page == 'insights' %}active{% endif %}">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Business Insights</span>
+                </a>
+                <a href="{{ url_for('about_page') }}" class="nav-item {% if active_page == 'about' %}active{% endif %}">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>About Project</span>
+                </a>
+            </nav>
+
+            <a href="/logout" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+            <div class="sidebar-footer">
+                <div class="tech-badge">
+                    <i class="fa-brands fa-python"></i> Flask + Scikit-Learn
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <!-- Top Navigation Header -->
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <button id="mobile-menu-btn" class="icon-btn mobile-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="page-title-container">
+                        <h1 class="page-title">{% block title %}Banking Analytics Dashboard{% endblock %}</h1>
+                        <p class="page-subtitle">Universal Bank Personal Loan Machine Learning Engine</p>
+                    </div>
+                </div>
+
+                <div class="navbar-right">
+                    <!-- Live Clock & Date Badge -->
+                    <div class="time-badge">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="live-time">--:--:--</span>
+                        <span class="badge-separator">|</span>
+                        <span id="live-date">---, -- ----</span>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle-btn" class="icon-btn theme-btn" title="Toggle Light/Dark Theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Content Body -->
+            <main class="content-container">
+                {% block content %}{% endblock %}
+            </main>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                <div class="footer-content">
+                    <span>© 2026 Universal Bank Personal Loan Machine Learning Project</span>
+                    <span class="dot-separator">•</span>
+                    <span>College Academic Final Presentation</span>
+                    <span class="dot-separator">•</span>
+                    <span class="status-online"><i class="fa-solid fa-circle"></i> System Ready</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

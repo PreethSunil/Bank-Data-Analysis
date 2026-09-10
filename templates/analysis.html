@@ -1,0 +1,192 @@
+{% extends "layout.html" %}
+
+{% block title %}Exploratory Data Analysis (EDA){% endblock %}
+
+{% block content %}
+<div class="analysis-page-wrapper">
+    <!-- Filter Control Bar -->
+    <div class="glass-card filter-bar">
+        <div class="filter-title">
+            <i class="fa-solid fa-filter text-gold"></i> Dynamic Dataset Filters
+        </div>
+        <div class="filter-controls-grid">
+            <!-- Age Filter -->
+            <div class="filter-group">
+                <label>Age Range</label>
+                <div class="range-inputs">
+                    <input type="number" id="filter-min-age" placeholder="Min (23)" min="20" max="70" class="form-control form-control-sm">
+                    <span>to</span>
+                    <input type="number" id="filter-max-age" placeholder="Max (67)" min="20" max="70" class="form-control form-control-sm">
+                </div>
+            </div>
+
+            <!-- Education Filter -->
+            <div class="filter-group">
+                <label>Education Level</label>
+                <select id="filter-education" class="form-control form-control-sm">
+                    <option value="">All Education Levels</option>
+                    <option value="1">1 - Undergraduate</option>
+                    <option value="2">2 - Graduate</option>
+                    <option value="3">3 - Advanced / Professional</option>
+                </select>
+            </div>
+
+            <!-- Loan Status Filter -->
+            <div class="filter-group">
+                <label>Personal Loan Status</label>
+                <select id="filter-loan" class="form-control form-control-sm">
+                    <option value="">All Customers</option>
+                    <option value="1">Accepted Loan Only (1)</option>
+                    <option value="0">Rejected Loan Only (0)</option>
+                </select>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-actions">
+                <button class="btn btn-gold btn-sm" onclick="applyAnalysisFilters()">
+                    <i class="fa-solid fa-check"></i> Apply Filters
+                </button>
+                <button class="btn btn-outline-light btn-sm" onclick="resetAnalysisFilters()">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+        </div>
+        <div class="filter-summary">
+            Showing analysis for <strong id="filter-count-badge" class="text-gold">5,000</strong> filtered bank customer records.
+        </div>
+    </div>
+
+    <!-- Charts Grid (14 Charts & Visualizations) -->
+    <div class="charts-grid-wrapper">
+        <!-- 1. Age Distribution -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-cake-candles text-blue"></i> Age Distribution</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartAge', 'Age_Distribution')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartAge"></canvas></div>
+        </div>
+
+        <!-- 2. Income Distribution -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-sack-dollar text-gold"></i> Income Distribution</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartIncome', 'Income_Distribution')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartIncome"></canvas></div>
+        </div>
+
+        <!-- 3. Experience Distribution -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-briefcase text-green"></i> Work Experience Distribution</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartExp', 'Experience_Distribution')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartExp"></canvas></div>
+        </div>
+
+        <!-- 4. Education Distribution -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-graduation-cap text-purple"></i> Education Breakdown</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartEdu', 'Education_Distribution')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartEdu"></canvas></div>
+        </div>
+
+        <!-- 5. Family Size Distribution -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-people-group text-cyan"></i> Family Size Distribution</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartFamily', 'Family_Distribution')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartFamily"></canvas></div>
+        </div>
+
+        <!-- 6. Mortgage Distribution -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-house-user text-red"></i> Mortgage Status ($0 vs Active)</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartMortgage', 'Mortgage_Distribution')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartMortgage"></canvas></div>
+        </div>
+
+        <!-- 7. Loan Accepted vs Rejected -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-chart-pie text-gold"></i> Personal Loan Acceptance Ratio</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartLoan', 'Loan_Status')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartLoan"></canvas></div>
+        </div>
+
+        <!-- 8. Online Banking Adoption -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-globe text-blue"></i> Online Banking Users</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartOnline', 'Online_Banking')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartOnline"></canvas></div>
+        </div>
+
+        <!-- 9. Securities Account Users -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-chart-line text-green"></i> Securities Account Holders</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartSecurities', 'Securities_Account')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartSecurities"></canvas></div>
+        </div>
+
+        <!-- 10. Credit Card Users -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-credit-card text-purple"></i> Universal Bank Credit Card</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartCC', 'Credit_Card_Users')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartCC"></canvas></div>
+        </div>
+
+        <!-- 11. CD Account Users -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-piggy-bank text-gold"></i> CD Account Holders</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartCD', 'CD_Account_Users')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartCD"></canvas></div>
+        </div>
+
+        <!-- 12. Education vs Loan Acceptance Rate -->
+        <div class="glass-card chart-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-award text-gold"></i> Education Level vs Loan Acceptance</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartEduLoan', 'Education_vs_Loan_Rate')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container"><canvas id="chartEduLoan"></canvas></div>
+        </div>
+
+        <!-- 13. Income vs Credit Card Spending Scatter Plot -->
+        <div class="glass-card chart-card full-width">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-chart-scatter text-blue"></i> Income vs Credit Card Spending (CCAvg) Scatter</h2>
+                <button class="icon-btn" onclick="exportChartPNG('chartScatter', 'Income_vs_CCAvg_Scatter')"><i class="fa-solid fa-download"></i></button>
+            </div>
+            <div class="chart-container large-chart"><canvas id="chartScatter"></canvas></div>
+        </div>
+
+        <!-- 14. Correlation Matrix Heatmap -->
+        <div class="glass-card chart-card full-width">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-border-all text-gold"></i> Feature Correlation Matrix Heatmap</h2>
+                <span class="badge badge-blue">Pearson Correlation Coefficient</span>
+            </div>
+            <div class="heatmap-table-container">
+                <table id="heatmap-table" class="heatmap-table">
+                    <!-- Heatmap HTML rendered dynamically in script.js -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

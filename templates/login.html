@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Bank | Login</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #070a12;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --gold: #f59e0b;
+            --blue: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(245, 158, 11, 0.15); /* Gold */
+            top: -100px;
+            left: -100px;
+        }
+        
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(59, 130, 246, 0.15); /* Blue */
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* Glassmorphism Card */
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header / Logo */
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3));
+        }
+
+        .brand-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-sub {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.2rem;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-control:focus + .input-icon, 
+        .form-control:not(:placeholder-shown) + .input-icon {
+            color: var(--blue);
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--gold), #d97706);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.23);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Error Message */
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Footer */
+        .login-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Orbs -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <!-- Login Container -->
+    <div class="login-card">
+        <div class="brand-logo">
+            <i class="fa-solid fa-vault brand-icon"></i>
+            <div class="brand-text">UNIVERSAL BANK</div>
+            <div class="brand-sub">ML Analytics Portal</div>
+        </div>
+
+        {% if error %}
+        <div class="error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <form action="/login" method="POST" id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" value="admin" placeholder="Enter username" required>
+                <i class="fa-solid fa-user input-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" value="admin123" placeholder="Enter password" required>
+                <i class="fa-solid fa-lock input-icon"></i>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <span>Sign In</span>
+                <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            Universal Bank ML Portal - Academic Project &copy; 2026
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const btn = this.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span style="margin-left: 8px;">Authenticating...</span>';
+            btn.style.opacity = '0.8';
+        });
+    </script>
+</body>
+</html>
