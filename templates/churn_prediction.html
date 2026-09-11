@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Live Customer Churn Prediction{% endblock %}
+
+{% block content %}
+<div class="prediction-page-wrapper">
+  <div class="prediction-grid">
+    <div class="glass-card predict-form-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2 class="card-title"><i class="fa-solid fa-user-clock text-gold"></i> Churn Risk Input</h2>
+          <p class="card-subtitle">Enter a customer profile to estimate the probability that the customer will leave the bank.</p>
+        </div>
+        <button class="btn btn-outline-light btn-sm" onclick="fillChurnSampleProfile()"><i class="fa-solid fa-wand-magic-sparkles"></i> Load Sample</button>
+      </div>
+      <form onsubmit="handleChurnPrediction(event)">
+        <div class="form-grid-3">
+          <div class="form-group"><label for="c-credit-score">Credit Score</label><input id="c-credit-score" type="number" min="300" max="850" value="650" class="form-control" required></div>
+          <div class="form-group"><label for="c-age">Age</label><input id="c-age" type="number" min="18" max="100" value="40" class="form-control" required></div>
+          <div class="form-group"><label for="c-tenure">Tenure (years)</label><input id="c-tenure" type="number" min="0" max="10" value="5" class="form-control" required></div>
+          <div class="form-group"><label for="c-balance">Account Balance</label><input id="c-balance" type="number" min="0" value="60000" class="form-control" required></div>
+          <div class="form-group"><label for="c-products">Number of Products</label><select id="c-products" class="form-control"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option></select></div>
+          <div class="form-group"><label for="c-card">Has Credit Card</label><select id="c-card" class="form-control"><option value="1" selected>Yes</option><option value="0">No</option></select></div>
+          <div class="form-group"><label for="c-active">Active Member</label><select id="c-active" class="form-control"><option value="1" selected>Yes</option><option value="0">No</option></select></div>
+          <div class="form-group"><label for="c-salary">Estimated Salary</label><input id="c-salary" type="number" min="0" value="60000" class="form-control" required></div>
+          <div class="form-group"><label for="c-geography">Geography</label><select id="c-geography" class="form-control"><option value="France" selected>France</option><option value="Germany">Germany</option><option value="Spain">Spain</option></select></div>
+          <div class="form-group"><label for="c-gender">Gender</label><select id="c-gender" class="form-control"><option value="Female" selected>Female</option><option value="Male">Male</option></select></div>
+        </div>
+        <div class="form-actions-bar"><button type="submit" class="btn btn-gold btn-lg btn-block" id="churn-predict-submit-btn"><i class="fa-solid fa-user-clock"></i> Calculate Churn Risk</button></div>
+      </form>
+    </div>
+    <div class="glass-card predict-result-card">
+      <div class="card-header"><h2 class="card-title"><i class="fa-solid fa-shield-heart text-gold"></i> Churn Prediction Output</h2><span class="badge badge-gold">Random Forest</span></div>
+      <div class="result-placeholder" id="churn-result-placeholder"><i class="fa-solid fa-user-shield placeholder-icon"></i><p>Enter the customer profile and select <strong>Calculate Churn Risk</strong> to receive a live retention recommendation.</p></div>
+      <div class="result-content hidden" id="churn-result-content">
+        <div class="status-banner" id="churn-status-banner"><div class="status-icon" id="churn-status-icon"></div><div class="status-text-wrap"><div class="status-title" id="churn-status-title"></div><div class="status-subtitle" id="churn-status-subtitle"></div></div></div>
+        <div class="probability-meter-wrapper"><div class="prob-header"><span>Churn Probability</span><strong class="prob-pct-num" id="churn-probability">0%</strong></div><div class="prob-bar-track"><div class="prob-bar-fill" id="churn-probability-bar" style="width:0%"></div></div></div>
+        <div class="info-metric-box"><div class="info-row"><span>Model Confidence Level:</span><strong id="churn-confidence" class="text-gold"></strong></div><div class="info-row"><span>Customer Risk Tier:</span><strong id="churn-risk-tier" class="text-green"></strong></div></div>
+        <div class="recommendation-box"><div class="rec-title"><i class="fa-solid fa-lightbulb text-gold"></i> Retention Recommendation</div><p class="rec-text" id="churn-recommendation"></p></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

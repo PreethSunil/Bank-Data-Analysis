@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Automated Business Insights & Executive Intelligence{% endblock %}
+
+{% block content %}
+<div class="insights-page-wrapper">
+    <!-- Executive Summary Banner -->
+    <div class="glass-card insights-banner">
+        <div class="banner-title"><i class="fa-solid fa-lightbulb text-gold"></i> Executive Business Intelligence Summary</div>
+        <p class="banner-desc">Key analytical observations derived directly from data mining and feature significance evaluation on 5,000 Universal Bank customer records.</p>
+    </div>
+
+    <!-- Quick Stats Grid -->
+    <div class="insights-stats-grid">
+        <div class="glass-card stat-card">
+            <span class="s-label">Highest Income Group</span>
+            <h3 class="s-value text-gold" id="ins-income-grp">Income > $100k</h3>
+            <span class="s-sub">3x Higher Conversion</span>
+        </div>
+        <div class="glass-card stat-card">
+            <span class="s-label">Top Education Level</span>
+            <h3 class="s-value text-blue" id="ins-edu-lvl">Advanced / Prof.</h3>
+            <span class="s-sub">Highest Loan Uptake</span>
+        </div>
+        <div class="glass-card stat-card">
+            <span class="s-label">Average Mortgage</span>
+            <h3 class="s-value text-purple" id="ins-avg-mortgage">$56.5k</h3>
+            <span class="s-sub">Across All Customers</span>
+        </div>
+        <div class="glass-card stat-card">
+            <span class="s-label">Overall Loan Acceptance</span>
+            <h3 class="s-value text-green" id="ins-loan-pct">17.5%</h3>
+            <span class="s-sub">Target Campaign Rate</span>
+        </div>
+        <div class="glass-card stat-card">
+            <span class="s-label">Online Banking Adoption</span>
+            <h3 class="s-value text-cyan" id="ins-online-pct">59.8%</h3>
+            <span class="s-sub">Digital Engagement</span>
+        </div>
+        <div class="glass-card stat-card">
+            <span class="s-label">Credit Card Ownership</span>
+            <h3 class="s-value text-red" id="ins-cc-pct">29.4%</h3>
+            <span class="s-sub">Universal Bank Cards</span>
+        </div>
+    </div>
+
+    <!-- Insights List Grid -->
+    <div class="insights-cards-grid" id="insights-container">
+        <!-- Loaded dynamically from API -->
+    </div>
+</div>
+{% endblock %}
